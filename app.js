@@ -3,6 +3,7 @@ const wsServer = new WebSocket.Server({port: 9000})
 
 let IDcounter = 1
 const clients = []
+const messages = []
 
 wsServer.on("connection", function(ws){
     console.log("connection established")
@@ -27,11 +28,18 @@ wsServer.on("connection", function(ws){
 
     ws.on('message', function(data){
         const payload = JSON.parse(data)
+        console.log(payload)
         switch(payload.type){
             case "SET_USERNAME":
                 console.log(`${client.username} sent ${ payload.data}`)
-                break
+                break;
+            case "DM": 
+                console.log(payload.key.data)
+                break;
+            
         }
+
+       
 
         
         // console.log("Recieved: ", data)
@@ -49,6 +57,7 @@ wsServer.on("connection", function(ws){
         
     // })
     
-    
+console.log(clients)
+
     
 })

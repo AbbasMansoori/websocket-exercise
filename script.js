@@ -1,5 +1,6 @@
 let websocket = null
-const input = document.querySelector("input")
+const inputMessage = document.getElementById("inputMessage")
+const inputName = document.getElementById("inputName")
 const p = document.querySelector("p")
 
 
@@ -8,6 +9,7 @@ function connect(){
 
     websocket.addEventListener("open", function(){
         console.log("connected from client")
+        websocket.send(JSON.stringify({name: inputName.value, type: "SET_USERNAME"}))
     })
 
     websocket.addEventListener("message", function(event){
@@ -16,24 +18,28 @@ function connect(){
         // p.innerHTML = input.value.toUpperCase()
 
         
-        const payload = { 
-            type: "SET_USERNAME",
-            data: input.value
-        }
-        websocket.send( JSON.stringify(payload.data))
     })
     websocket.addEventListener("close", function(){
         console.log("Disconnected")
         websocket = null
-      })
+    })
 
 }
 
 function sendMessage(){
     if(websocket){
-      websocket.send(input.value)
-   
+        // websocket.send(input.value)
+        
+        const payload = { 
+            type: "SET_USERNAME",
+            data: inputMessage.value,
+           
+            
+        }
+        
+        websocket.send( JSON.stringify(payload))
 
     }
 }
+
 
