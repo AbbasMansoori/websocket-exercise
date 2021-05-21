@@ -10,7 +10,7 @@ wsServer.on("connection", function(ws){
 
     const client = {
 
-        ws,
+        socket: ws,
         id: IDcounter,
         username: `User${IDcounter}`
         
@@ -22,11 +22,19 @@ wsServer.on("connection", function(ws){
     
     clients.forEach(client=>{
         const message = "client message"
-        client.ws.send(message)
+        client.socket.send(message)
     })
 
     ws.on('message', function(data){
-        console.log("Recieved: ", data)
+        const payload = JSON.parse(data)
+        switch(payload.type){
+            case "SET_USERNAME":
+                console.log(`${client.username} sent ${ payload.data}`)
+                break
+        }
+
+        
+        // console.log("Recieved: ", data)
       })
 
       ws.on('close', function(closeCode){

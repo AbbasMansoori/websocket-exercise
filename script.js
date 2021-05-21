@@ -11,9 +11,16 @@ function connect(){
     })
 
     websocket.addEventListener("message", function(event){
-        console.log(event.data)
-        console.log(input.value.toUpperCase())
-        p.innerHTML = input.value.toUpperCase()
+        // console.log(event.data)
+        // console.log(input.value.toUpperCase())
+        // p.innerHTML = input.value.toUpperCase()
+
+        
+        const payload = { 
+            type: "SET_USERNAME",
+            data: input.value
+        }
+        websocket.send( JSON.stringify(payload.data))
     })
     websocket.addEventListener("close", function(){
         console.log("Disconnected")
@@ -25,6 +32,8 @@ function connect(){
 function sendMessage(){
     if(websocket){
       websocket.send(input.value)
+   
+
     }
 }
 
